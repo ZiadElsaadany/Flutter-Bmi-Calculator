@@ -1,4 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
+import 'package:bmi_calculator/result_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -7,11 +9,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int value = 100;
-  int age  = 18 ;
-  int weight = 50;
+   double  height = 100;
+   int age  = 18 ;
+   double  weight = 50;
   bool  colorMale = false;
-  bool colorFemale=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,13 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.only(left: 15, right: 7, top: 10),
                     child: InkWell(
                       onTap: (){
-                        colorFemale = true;
                         colorMale = false;
                         setState(() {});
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                            border: Border.all(color: colorFemale?Colors.red:Colors.black, width: 10),
+                            border: Border.all(color: colorMale? Colors.black:Colors.red, width: 10),
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(30)),
                         child: const Image(
@@ -52,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: InkWell(
                       onTap: ( ) {
                         colorMale = true;
-                        colorFemale = false;
                         setState(() {});
                       } ,
                       child: Container(
@@ -91,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '$value',
+                          '${height.toInt()}',
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 40,
@@ -106,9 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Slider(
-                        value: value.toDouble(),
+                        value:height,
                         onChanged: (value) {
-                          this.value = value.toInt();
+                          height = value;
                           setState(() {});
                         },
                         min: 100,
@@ -141,9 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
-                         SizedBox(height: 5,),
+                         const SizedBox(height: 5,),
                          Text(
-                          '$weight',
+                          '${weight.toInt()}',
                           style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -238,13 +237,27 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    double result = weight / pow(height/100,2);
+                    print (result.round());
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>ResultScreen(
+                          age: age,
+                          isMale: colorMale ,
+                          result: result,
+                          height: height,
+                          weight: weight,
+
+                        )
+                    )
+                    ) ;
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.red),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0),
-                            side: BorderSide(color: Colors.red))),
+                            side: const BorderSide(color: Colors.red))),
                   ),
                   child: const Text(
                     'CALCULATE',
