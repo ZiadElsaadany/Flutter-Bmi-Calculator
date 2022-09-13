@@ -9,10 +9,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-   double  height = 100;
-   int age  = 18 ;
-   double  weight = 50;
-  bool  colorMale = false;
+  double  height = 100;
+  int age  = 18 ;
+  double  weight = 50;
+  bool  isMale = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,42 +28,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15, right: 7, top: 10),
-                    child: InkWell(
-                      onTap: (){
-                        colorMale = false;
-                        setState(() {});
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: colorMale? Colors.black:Colors.red, width: 10),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: const Image(
-                          image: AssetImage('assets/images/female.png'),
-                          height: 150,
-                        ),
-                      ),
+                    child: Container(
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: isMale? Colors.black:Colors.red, width: 10),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: InkWell(
+                          onTap: (){
+                            isMale = false;
+                            setState(() {});
+                          },
+                          child: const Icon(Icons.female,size: 100,))
                     ),
                   ),
                 ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15, right: 7, top: 10),
-                    child: InkWell(
-                      onTap: ( ) {
-                        colorMale = true;
-                        setState(() {});
-                      } ,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: colorMale?Colors.red:Colors.black, width: 10),
-                            borderRadius: BorderRadius.circular(30)),
-                        child: const Image(
-                          image: AssetImage('assets/images/male.png'),
-                          height: 150,
-                        ),
-                      ),
+                    child: Container(
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: isMale?Colors.red:Colors.black, width: 10),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: InkWell(
+                          onTap: ( ) {
+                            isMale = true;
+                            setState(() {});
+                          } ,
+                          child: const Icon(Icons.male_outlined,size: 100,))
                     ),
                   ),
                 ),
@@ -140,8 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
-                         const SizedBox(height: 5,),
-                         Text(
+                        const SizedBox(height: 5,),
+                        Text(
                           '${weight.toInt()}',
                           style: const TextStyle(
                               fontSize: 30,
@@ -191,8 +186,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
-                         const SizedBox(height: 5,),
-                         Text(
+                        const SizedBox(height: 5,),
+                        Text(
                           '$age',
                           style: const TextStyle(
                               fontSize: 30,
@@ -206,7 +201,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onPressed: () {
                                   age--;
                                   setState(() {
-
                                   });
                                 },
                                 icon: const Icon(
@@ -237,20 +231,30 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: (){
                     double result = weight / pow(height/100,2);
                     print (result.round());
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) =>ResultScreen(
-                          age: age,
-                          isMale: colorMale ,
-                          result: result,
-                          height: height,
-                          weight: weight,
 
-                        )
-                    )
-                    ) ;
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context)  {
+                            return  ResultScreen(
+                              height: height ,
+                              weight: weight,
+                              result: result,
+                              age: age ,
+                              gender:
+                              isMale==true ?'male' : 'female',
+
+
+                            );
+                          }
+
+
+                      ));
+
+
+
+
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.red),

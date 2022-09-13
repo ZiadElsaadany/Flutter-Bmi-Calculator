@@ -1,70 +1,43 @@
+import 'package:bmi_calculator/widgets/text_result_widget.dart';
 import 'package:flutter/material.dart';
 
 class ResultScreen extends StatelessWidget {
- double   result  ;
- int  age ;
- bool  isMale ;
- double weight;
- double height;
- ResultScreen({
-   required this.age ,
-   required this.result,
-   required this.isMale,
-   required this.height ,
-   required this.weight
-} ) ;
+
+  final String gender ;
+  final double result ;
+  final int age ;
+  final double  weight;
+  final  double       height;
+  ResultScreen(
+  { // named
+    required this.height,
+    required this.result,
+    required this.weight,
+    required this.age ,
+    required this.gender
+}
+      );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.withOpacity(0.7) ,
-      appBar: AppBar(
-          title: const Text('Result'), backgroundColor: Colors.black),
-      body: Center(
+        backgroundColor: Colors.grey.withOpacity(0.5),
+        appBar: AppBar(
+        title: const Text( 'Bmi Result'),
+        backgroundColor: Colors.black,
+      ),
+      body:  Container(
+        alignment: Alignment.center,
         child: Column (
           mainAxisAlignment: MainAxisAlignment.center,
-           children:  [
-            Text(
-                isMale? 'Gender: Male': 'Gender: Female',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30 ,
-                color: Colors.white,
-                letterSpacing: 2
-
-              ),
-
-            ),
-            Text( 'Bmi Result: ${result.round()} ',     style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30 ,
-                color: Colors.white,
-                letterSpacing: 2
-
-            )  ) ,
-            Text( 'Age: $age',style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30 ,
-                color: Colors.white,
-                letterSpacing: 2
-
-            ),),
-            Text( 'Weight: ${weight.toInt()}',  style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30 ,
-                color: Colors.white,
-                letterSpacing: 2
-
-            ),),
-            Text( 'Height: ${height.toInt()}',  style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30 ,
-                color: Colors.white,
-                letterSpacing: 2
-
-            ),),
+          children:  [
+             TextResultWidget( text1: 'gender' ,  text2: gender),
+             TextResultWidget(text1: 'result' , text2:result.round() ),
+             TextResultWidget(text1: 'age' ,text2: age),
+             TextResultWidget(text1: 'height' ,text2:height.round() ),
+             TextResultWidget(text1:  'weight'  ,text2:  weight.round()),
           ],
         ),
-      ),
-    ) ;
+      )
+    );
   }
 }
